@@ -28,9 +28,9 @@ sum1 = 0
 sum2 = 0
 length = len(inputString)
 for i in range(length):
-    if inputString[i] == inputString[(i+1)%length]:
+    if inputString[i] == inputString[(i+1) % length]:
         sum1 += int(inputString[i])
-    if inputString[i] == inputString[(i+(length/2))%length]:
+    if inputString[i] == inputString[(i+(length/2)) % length]:
         sum2 += int(inputString[i])
 
 print sum1
