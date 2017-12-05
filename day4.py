@@ -17,6 +17,7 @@ def stringToDict(string):
         else:
             stringDict[char] = 1
     return stringDict
+
 def noAnagrams(stringList):
     listOfStringDicts = []
     for i in range(len(stringList)):
