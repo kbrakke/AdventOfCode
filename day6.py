@@ -20,8 +20,9 @@ def distribute_blocks(index, databanks):
     return databanks
 
 count = 0
+loop_size = 0
 seen_before = False
-seen_arraginment = ""
+loop_complete = False
 new_databanks = distribute_blocks(find_max_index(initial_databanks), initial_databanks)
 count += 1
 if str(new_databanks) in seen_arraginments:
@@ -29,27 +30,20 @@ if str(new_databanks) in seen_arraginments:
 else:
     seen_arraginments.add(str(new_databanks))
 
-while not seen_before:
+while not (seen_before and loop_complete):
     new_databanks = distribute_blocks(find_max_index(initial_databanks), initial_databanks)
-    count += 1
+    if seen_before:
+        loop_size += 1
+    else:
+        count += 1
     if str(new_databanks) in seen_arraginments:
+        if seen_before:
+            loop_complete = True
         seen_before = True
-        seen_arraginment = str(new_databanks)
+        seen_arraginments.clear()
+        seen_arraginments.add(str(new_databanks))
     else:
         seen_arraginments.add(str(new_databanks))
-
-loop_size = 0
-loop_complete = False
-new_databanks = distribute_blocks(find_max_index(initial_databanks), initial_databanks)
-loop_size += 1
-if str(new_databanks) == seen_arraginment:
-    loop_complete = True
-
-while not loop_complete:
-    new_databanks = distribute_blocks(find_max_index(initial_databanks), initial_databanks)
-    loop_size += 1
-    if str(new_databanks) == seen_arraginment:
-        loop_complete = True
 
 print(count)
 print(loop_size)
