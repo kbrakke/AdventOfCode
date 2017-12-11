@@ -1,11 +1,9 @@
 import functools
 
 jumps = [187,254,0,81,169,219,1,190,19,102,255,56,46,32,2,216]
-#ascii_jumps = "187,254,0,81,169,219,1,190,19,102,255,56,46,32,2,216"
-ascii_jumps = ""
+ascii_jumps = "187,254,0,81,169,219,1,190,19,102,255,56,46,32,2,216"
 part_2_jumps = [ord(char) for char in ascii_jumps]
 part_2_jumps = part_2_jumps + [17, 31, 73, 47, 23]
-#part_2_jumps = [17, 31, 73, 47, 23]
 knot_list = list(range(0, 256))
 index = 0
 skip = 0
@@ -31,8 +29,8 @@ for jump in jumps:
 print(knot_list[0] * knot_list[1])
 
 index = 0
-jump = 0
-knot_list = list(range(256))
+skip = 0
+knot_list = list(range(0, 256))
 for round in range(64):
     for jump in part_2_jumps:
         end = (index + jump) % len(knot_list)
