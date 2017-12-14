@@ -22,4 +22,4 @@ while current_severity > 0:
     current_severity = calculate_severity(start_time)
     start_time += 1
 
-print (start_time - 1)
+print(start_time - 1)
