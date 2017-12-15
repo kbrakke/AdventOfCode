@@ -1,6 +1,6 @@
 import functools
 
-test_input = "flqrgnkx"
+#input_string = "flqrgnkx"
 input_string = "hwlqcszp"
 
 hash_list = []
@@ -63,15 +63,22 @@ def generate_adjcent(point):
     for i in [-1, 0, 1]:
         points.append((x + i, y))
         points.append((x, y + i))
-        points.append((x + i, y + i))
-    points = [valid_point for valid_point in points if (valid_point[0] in max_range) and (valid_point[1] in max_range) and valid_point is not point]
+    points = [valid_point for valid_point in points if valid_point[0] in max_range]
+    points = [valid_point for valid_point in points if valid_point[1] in max_range]
+    points = [valid_point for valid_point in points if valid_point != point]
     return points
 
 
 def add_point_and_adjcent(point, current_group):
+    (x, y) = point
+    if binary_list[y][x] == '0':
+        return
     if point not in points_in_groups:
-        points_in_groups.update(point)
-    current_group.update(point)
+        points_in_groups.add(point)
+        current_group.add(point)
+        next_points = generate_adjcent(point)
+        for next_point in next_points:
+            add_point_and_adjcent(next_point, current_group)
 
 def next_point(point):
     (x, y) = point
@@ -83,10 +90,11 @@ def next_point(point):
 
 
 point = (0,0)
-while len(points_in_groups) > used:
+while len(points_in_groups) < used:
     current_group = set()
-
-
-    groups.append(current_group)
+    add_point_and_adjcent(point, current_group)
+    if len(current_group) > 0:
+        groups.append(current_group)
+    point = next_point(point)
 
 print(len(groups))
