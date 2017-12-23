@@ -35,5 +35,15 @@ for line in open('day8Input.txt'):
 print(max(registers.values()))
 print(max_value)
 
+def is_prime(num):
+    for i in range (2, int(num/2)):
+        if num % i == 0:
+            return "Not Prime"
+    return "Prime"
+
+for i in range(101, 140):
+    print(str(i) + " "+is_prime(i))
+
+
 
 
