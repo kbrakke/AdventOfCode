@@ -9,8 +9,6 @@ import(
 
 func Day1(filename string) {
 	fmt.Printf("Advent of Code Day 1\n")
-	dir, _ := os.Getwd()
-	fmt.Printf("Working directory %s\n", dir)
 	file, _ := os.Open(filename)
 	frequencyChanges := make([]int, 0)
 	var matchedFrequency bool = false 
