@@ -1,4 +1,4 @@
-package main
+package adventOfCode
 
 import(
 	"bufio" 
@@ -7,9 +7,11 @@ import(
 	"strconv"
 )
 
-func main() {
+func Day1(filename string) {
 	fmt.Printf("Advent of Code Day 1\n")
-	file, _ := os.Open("day1Input.txt")
+	dir, _ := os.Getwd()
+	fmt.Printf("Working directory %s\n", dir)
+	file, _ := os.Open(filename)
 	frequencyChanges := make([]int, 0)
 	var matchedFrequency bool = false 
 	reachedFrequencies := make(map[int]int)
