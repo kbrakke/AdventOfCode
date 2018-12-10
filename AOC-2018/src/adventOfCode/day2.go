@@ -1,19 +1,20 @@
-package adventOfCode
+package adventofcode
 
-import(
-	"bufio" 
+import (
+	"bufio"
 	"fmt"
 	"os"
 	"strings"
 )
 
+//Day2 - Run day 2 of advent of code https://adventofcode.com/2018/day/2
 func Day2(filename string) {
 	fmt.Printf("Advent of Code Day 2\n")
 	file, _ := os.Open(filename)
 	scanner := bufio.NewScanner(file)
 	ids := make([]string, 0)
 	checkSum := make([]int, 2)
-	correctId := ""
+	correctID := ""
 	for scanner.Scan() {
 		id := scanner.Text()
 		ids = append(ids, id)
@@ -22,31 +23,31 @@ func Day2(filename string) {
 		checkSum[1] += checkSumContribution[1]
 
 	}
-	fmt.Printf("Checksum %d\n", checkSum[0] * checkSum[1])
+	fmt.Printf("Checksum %d\n", checkSum[0]*checkSum[1])
 	for _, id := range ids {
 		for _, id2 := range ids {
 			if id != id2 {
-				potentalId, isPotential := differByOneCharacter(id, id2)
+				potentalID, isPotential := differByOneCharacter(id, id2)
 				if isPotential {
-					correctId = potentalId
+					correctID = potentalID
 				}
 			}
 		}
 	}
-	fmt.Printf("Correct id %s\n", correctId)
+	fmt.Printf("Correct id %s\n", correctID)
 }
 
 func getChecksumValues(id string) []int {
 	checkSumContribution := make([]int, 2)
 	for _, character := range id {
 		count := strings.Count(id, string(character))
-		if (count == 2) {
+		if count == 2 {
 			checkSumContribution[0] = 1
 		}
-		if (count == 3) {
+		if count == 3 {
 			checkSumContribution[1] = 1
 		}
-		if(checkSumContribution[0] > 0 && checkSumContribution[1] >0) {
+		if checkSumContribution[0] > 0 && checkSumContribution[1] > 0 {
 			return checkSumContribution
 		}
 	}
@@ -55,7 +56,7 @@ func getChecksumValues(id string) []int {
 
 func differByOneCharacter(a string, b string) (string, bool) {
 	differentIndex := -1
-	for index, _ := range a {
+	for index := range a {
 		if a[index] != b[index] {
 			if differentIndex >= 0 {
 				return "", false
@@ -64,7 +65,7 @@ func differByOneCharacter(a string, b string) (string, bool) {
 		}
 	}
 	if differentIndex >= 0 {
-		return a[:differentIndex] + a[differentIndex+1:],true
+		return a[:differentIndex] + a[differentIndex+1:], true
 	}
 	return "", false
 }

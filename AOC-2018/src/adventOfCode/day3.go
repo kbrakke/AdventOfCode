@@ -1,13 +1,14 @@
-package adventOfCode
+package adventofcode
 
-import(
-	"bufio" 
+import (
+	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 	"regexp"
+	"strconv"
 )
 
+//Day3 - Run day 3 of advent of code https://adventofcode.com/2018/day/3
 func Day3(filename string) {
 	fmt.Printf("Advent of Code Day 3\n")
 	file, _ := os.Open(filename)
@@ -24,16 +25,16 @@ func Day3(filename string) {
 		trueClaim := true
 		for row := 0; row < height; row++ {
 			for col := 0; col < width; col++ {
-				currentClaim := fabric[row + fromTop][col + fromLeft]
+				currentClaim := fabric[row+fromTop][col+fromLeft]
 				if currentClaim == 0 {
-					fabric[row + fromTop][col + fromLeft] = id
+					fabric[row+fromTop][col+fromLeft] = id
 				} else if currentClaim > 0 {
-					trueClaim = false;
+					trueClaim = false
 					delete(trueClaims, currentClaim)
-					fabric[row + fromTop][col + fromLeft] = -1
+					fabric[row+fromTop][col+fromLeft] = -1
 					claimSize++
 				} else {
-					trueClaim = false;
+					trueClaim = false
 				}
 			}
 		}
@@ -41,13 +42,15 @@ func Day3(filename string) {
 			trueClaims[id] = exists
 		}
 	}
-	
+
 	fmt.Printf("Claim size overall: %d\n", claimSize)
-	fmt.Printf("The true claim %v\n", trueClaims)
+	for finalTrueClaimValue := range trueClaims {
+		fmt.Printf("The true claim %d\n", finalTrueClaimValue)
+	}
 }
 
 func parseLine(line string) (int, int, int, int, int) {
-	lineRegex := regexp.MustCompile("[\\d]+") 
+	lineRegex := regexp.MustCompile("[\\d]+")
 	entries := lineRegex.FindAllString(line, -1)
 	id, _ := strconv.Atoi(entries[0])
 	fromLeft, _ := strconv.Atoi(entries[1])

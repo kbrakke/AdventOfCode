@@ -1,25 +1,40 @@
 package main
 
-import(
-	"adventOfCode"
+import (
+	"adventofcode"
 	"fmt"
-	"time"
 	"os"
+	"time"
 )
 
 func main() {
-	dayToRun := os.Args[1]
+	dir, _ := os.Getwd()
+	fmt.Printf("Working Directory: %s", dir)
+	dayToRun := "0"
+	fileName := "default"
+	switch len(os.Args) {
+	case 1:
+		fmt.Println("usage adventOfCodeMain <day> [test?]")
+		os.Exit(1)
+	case 2:
+		dayToRun = os.Args[1]
+		fileName = fmt.Sprintf("./input/day%s.txt", dayToRun)
+	case 3:
+		dayToRun = os.Args[1]
+		fileName = fmt.Sprintf("./input/day%s-test.txt", dayToRun)
+	}
+
 	fmt.Printf("Running Advent of Code Day %s\n", dayToRun)
 	start := time.Now()
 	switch dayToRun {
 	case "1":
-		adventOfCode.Day1("./input/day1.txt")
+		adventofcode.Day1(fileName)
 	case "2":
-		adventOfCode.Day2("./input/day2.txt")
+		adventofcode.Day2(fileName)
 	case "3":
-		adventOfCode.Day3("./input/day3.txt")
+		adventofcode.Day3(fileName)
 	case "4":
-		adventOfCode.Day4("./input/day4.txt")
+		adventofcode.Day4(fileName)
 	default:
 		fmt.Println("I don't have a solution for that day")
 	}

@@ -1,17 +1,18 @@
-package adventOfCode
+package adventofcode
 
-import(
-	"bufio" 
+import (
+	"bufio"
 	"fmt"
 	"os"
 	"strconv"
 )
 
+//Day1 - Run day 1 of advent of code https://adventofcode.com/2018/day/1
 func Day1(filename string) {
 	fmt.Printf("Advent of Code Day 1\n")
 	file, _ := os.Open(filename)
 	frequencyChanges := make([]int, 0)
-	var matchedFrequency bool = false 
+	var matchedFrequency = false
 	reachedFrequencies := make(map[int]int)
 	sum := 0
 	scanner := bufio.NewScanner(file)
@@ -19,7 +20,7 @@ func Day1(filename string) {
 		lineInt, _ := strconv.Atoi(scanner.Text())
 		frequencyChanges = append(frequencyChanges, lineInt)
 		sum = sum + lineInt
-		if (reachedFrequencies[sum] > 0) {
+		if reachedFrequencies[sum] > 0 {
 			matchedFrequency = true
 			fmt.Printf("Matched Frequency %d\n", sum)
 		} else {
@@ -27,11 +28,10 @@ func Day1(filename string) {
 		}
 	}
 	fmt.Printf("Final frequency %d\n", sum)
-	fmt.Printf("Matched Freq %v\n", matchedFrequency)
 	for !matchedFrequency {
 		for _, value := range frequencyChanges {
 			sum = sum + value
-			if (reachedFrequencies[sum] == 1) {
+			if reachedFrequencies[sum] == 1 {
 				matchedFrequency = true
 				fmt.Printf("Matched Frequency %d\n", sum)
 				break
