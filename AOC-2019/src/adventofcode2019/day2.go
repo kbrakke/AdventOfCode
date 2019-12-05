@@ -8,9 +8,10 @@ import (
 	"strings"
 )
 
-//Day2 - Run day 2 of advent of code https://adventofcode.com/2019/day/1
+//Day2 - Run day 2 of advent of code https://adventofcode.com/2019/day/2
+// A simple helper to run the command and return how far to advance the program, returns 0 on an exit. 
 func Day2(filename string) {
-	fmt.Printf("Advent of Code Day 1\n")
+	fmt.Printf("Advent of Code Day 2\n")
 	file, _ := os.Open(filename)
 	var baseProgram []int 
 	scanner := bufio.NewScanner(file)
