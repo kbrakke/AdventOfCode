@@ -33,6 +33,8 @@ func main() {
 		adventofcode2019.Day2(fileName)
 	case "3":
 		adventofcode2019.Day3(fileName)
+	case "4":
+		adventofcode2019.Day4(fileName)
 	default:
 		fmt.Println("I don't have a solution for that day")
 	}
