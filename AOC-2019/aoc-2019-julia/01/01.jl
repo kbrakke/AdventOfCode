@@ -11,7 +11,8 @@ function recursiveFuel(mass)
     fuel > 0 ? fuel + recursiveFuel(fuel) : 0
 end
 
-input = open("01.txt", "r")
+pwd()
+input = open("./AOC-2019/aoc-2019-julia/01/01.txt", "r")
 
 part1Fuel = 0
 part2Fuel = 0
