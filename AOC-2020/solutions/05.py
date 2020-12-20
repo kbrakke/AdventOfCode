@@ -1,3 +1,4 @@
+import os
 print("Advent of code day 5")
 
 
@@ -33,8 +34,8 @@ allSeats = []
 for row in range(1, 127):
     for col in range(8):
         allSeats.append(row*8 + col)
-
-for line in open('/home/kbrakke/personal/AdventOfCode/AOC-2020/input/05/05-input.txt'):
+inputdir = os.getcwd() + '/AOC-2020/input/05/05-input.txt'
+for line in open(inputdir):
     (row, col) = parsePass(line.rstrip())
     num = row * 8 + col
     takenSeats.append(num)
