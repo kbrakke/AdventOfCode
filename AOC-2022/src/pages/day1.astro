@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import { maxBy, sumBy } from 'lodash';
+import { reduce } from 'lodash';
+
+const data = await fs.readFile('public/day1-input.txt', { encoding: 'utf8' });
+const split: string[] = data.split('\n\n');
+const elfPacks = [];
+for(let i = 0; i < split.length; i++) {
+    const foods = split[i].split('\n').map(calorie => parseInt(calorie));
+    elfPacks.push({
+        bag: i,
+        foods,
+        sum: foods.reduce((a, b) => a + b)
+    });
+}
+const max = maxBy(elfPacks, (pack) => {return pack.sum});
+const sorted = elfPacks.sort((a, b) => b.sum - a.sum);
+---
+
+<Layout title="Day 1">
+    <main>
+        Totalling up each of the Elves Rations
+    </main>
+        <p>Here is what I have split up {JSON.stringify(split, null, true)}</p>
+        <p>Here are the packs I have {JSON.stringify(elfPacks)}</p>
+        <p>The highest total number of calories is {max.sum}</p>
+        <p>The top three packs are {JSON.stringify(sorted.slice(0,3))}</p>
+        <p>The total of their packs is {sumBy(sorted.slice(0,3), 'sum')}</p>
+</Layout>
