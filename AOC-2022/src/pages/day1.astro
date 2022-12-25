@@ -1,18 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import fs from 'node:fs/promises';
+import { readFile } from '../components/inputReader';
 import { maxBy, sumBy } from 'lodash';
-import { reduce } from 'lodash';
 
-const data = await fs.readFile('public/day1-input.txt', { encoding: 'utf8' });
+const data = await readFile('day1-input.txt');
 const split: string[] = data.split('\n\n');
+const doubleSplit: string[][] = split.map(bag => {
+  return bag.split('\n');
+})
+const numberSplit: number[][] = doubleSplit.map(bag => {
+  return bag.map(food => {
+    return parseInt(food)
+  });
+})
+
 const elfPacks = [];
 for(let i = 0; i < split.length; i++) {
-    const foods = split[i].split('\n').map(calorie => parseInt(calorie));
     elfPacks.push({
         bag: i,
-        foods,
-        sum: foods.reduce((a, b) => a + b)
+        foods: numberSplit[i],
+        sum: numberSplit[i].reduce((a, b) => a + b)
     });
 }
 const max = maxBy(elfPacks, (pack) => {return pack.sum});
@@ -20,12 +27,147 @@ const sorted = elfPacks.sort((a, b) => b.sum - a.sum);
 ---
 
 <Layout title="Day 1">
-    <main>
-        Totalling up each of the Elves Rations
-    </main>
-        <p>Here is what I have split up {JSON.stringify(split, null, true)}</p>
-        <p>Here are the packs I have {JSON.stringify(elfPacks)}</p>
-        <p>The highest total number of calories is {max.sum}</p>
-        <p>The top three packs are {JSON.stringify(sorted.slice(0,3))}</p>
-        <p>The total of their packs is {sumBy(sorted.slice(0,3), 'sum')}</p>
+  <main>
+    <div class="fade-in-text ">
+      <h1>--- Day 1: Calorie Counting ---</h1>
+      <h2>Step 1: Parsing Input</h2>
+      <p>Reading the list of Packs, using '\n\n' as a seperator.</p>
+      <button type="button" class="collapsible">Here is what I have split up</button>
+      <div class="content">
+        <ul class="grid" >
+          {split.map(pack => (
+            <li>{pack}</li>
+          ))}
+        </ul>
+      </div>
+      <h2>Step 2: Creating Backpacks</h2>
+      <p> Mapping each pack to a new object.</p>
+      <p>I'm not sure what part 2 will want, so I add the pack number and keep the list of food</p>
+      <button type="button" class="collapsible">Here are the bags parsed out</button>
+      <div class="content">
+        <ul class="grid">
+          {elfPacks.map(pack =>(
+            <>
+              <li>Elf Number: {pack.bag}</li>
+              <li>Stored Foods: {pack.foods.join(', ')}</li>
+              <li>Total Calories: {pack.sum}</li>
+              <li></li>
+            </>
+          ))}
+        </ul>
+      </div>
+    <h2>Step 3: Finding the highest calorie value backpack.</h2>
+    <button type="button" class="collapsible">Using _.maxBy(_, 'property') to find the max.</button>
+    <div class="content">
+      <ul class="grid">
+          <>
+            <li>Elf Number: {max.bag}</li>
+            <li>Stored Foods: {max.foods.join(', ')}</li>
+            <li>Total Calories: {max.sum}</li>
+          </>
+      </ul>
+    </div>
+    <button type="button" class="collapsible"><h2>Answer Part 1</h2></button>
+    <div class="content">
+      <ul class="grid">
+          <>
+            <li>{max.sum}</li>
+          </>
+      </ul>
+    </div>
+    <h2>Step 4: Finding the top 3 Highest</h2>
+    <button type="button" class="collapsible">Using slice(0,3) on a list sorted with _.sortBy(_, 'property')</button>
+    <div class="content">
+      <ul class="grid">
+        {sorted.slice(0,3).map(pack =>(
+          <>
+            <li>Elf Number: {pack.bag}</li>
+            <li>Stored Foods: {pack.foods.join(', ')}</li>
+            <li>Total Calories: {pack.sum}</li>
+            <li></li>
+          </>
+        ))}
+      </ul>
+    </div>
+    <button type="button" class="collapsible"><h2>Answer Part 2</h2></button>
+    <div class="content">
+      <ul class="grid">
+          <>
+            <li>{sumBy(sorted.slice(0,3), 'sum')}</li>
+          </>
+      </ul>
+    </div>
+    </div>
+  </main>
+  <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
 </Layout>
+
+<style>
+.fade-in-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  animation: fadeIn 5s;
+  -webkit-animation: fadeIn 5s;
+  -moz-animation: fadeIn 5s;
+  -o-animation: fadeIn 5s;
+  -ms-animation: fadeIn 5s;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+ul li {
+  border: 1px solid #ddd; /* Add a thin border to each list item */
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6; /* Add a grey background color */
+  padding: 12px; /* Add some padding */
+}
+.collapsible {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+  background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+  font-family: 'Courier New', Courier, monospace;
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+</style>
