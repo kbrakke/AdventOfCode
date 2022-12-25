@@ -24,8 +24,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  BUILD_PATH: "AOC-2022" # default value when not using subfolders
-  # BUILD_PATH: subfolder
+  # BUILD_PATH: "." # default value when not using subfolders
+  BUILD_PATH: AOC-2022
 
 jobs:
   build:
