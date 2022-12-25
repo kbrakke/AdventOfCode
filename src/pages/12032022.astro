@@ -1,81 +1,123 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { readFile } from '../components/inputReader';
-// A - Rock, B - Paper, C - Scissors
-const outcomeDict = {
-    'A X': 4, // 1 + 3
-    'A Y': 8, // 2 + 6
-    'A Z': 3, // 3 + 0
-    'B X': 1, // 1 + 0
-    'B Y': 5, // 2 + 3
-    'B Z': 9, // 3 + 6
-    'C X': 7, // 1 + 6
-    'C Y': 2, // 2 + 0
-    'C Z': 6, // 3 + 3
+import { intersection } from 'lodash';
+const charToInt = {
+    'a' : 1,
+    'b' : 2,
+    'c' : 3,
+    'd' : 4,
+    'e' : 5,
+    'f' : 6,
+    'g' : 7,
+    'h' : 8,
+    'i' : 9,
+    'j' : 10,
+    'k' : 11,
+    'l' : 12,
+    'm' : 13,
+    'n' : 14,
+    'o' : 15,
+    'p' : 16,
+    'q' : 17,
+    'r' : 18,
+    's' : 19,
+    't' : 20,
+    'u' : 21,
+    'v' : 22,
+    'w' : 23,
+    'x' : 24,
+    'y' : 25,
+    'z' : 26,
+    'A' : 27,
+    'B' : 28,
+    'C' : 29,
+    'D' : 30,
+    'E' : 31,
+    'F' : 32,
+    'G' : 33,
+    'H' : 34,
+    'I' : 35,
+    'J' : 36,
+    'K' : 37,
+    'L' : 38,
+    'M' : 39,
+    'N' : 40,
+    'O' : 41,
+    'P' : 42,
+    'Q' : 43,
+    'R' : 44,
+    'S' : 45,
+    'T' : 46,
+    'U' : 47,
+    'V' : 48,
+    'W' : 49,
+    'X' : 50,
+    'Y' : 51,
+    'Z' : 52,
 }
-// X - Lose, Y - Draw, Z - Win
-const trueOutcomeDict = {
-    'A X': 3, // 3 + 0
-    'A Y': 4, // 1 + 3
-    'A Z': 8, // 2 + 6
-    'B X': 1, // 1 + 0
-    'B Y': 5, // 2 + 3
-    'B Z': 9, // 3 + 6
-    'C X': 2, // 2 + 0
-    'C Y': 6, // 3 + 3
-    'C Z': 7, // 1 + 6
+
+const data: string = await readFile('12032022-input.txt');
+const packList: string[] = data.split('\n');
+const commonItems: string[] = packList.map(pack => {
+    const left: string = pack.slice(0, pack.length/2);
+    const right: string = pack.slice(pack.length/2);
+    return intersection(Array.from(left), Array.from(right))[0];
+});
+const itemsToValue: number[] = commonItems.map(item => {
+    return charToInt[item];
+});
+const totalCommonValue = itemsToValue.reduce((a, b) => a + b, 0);
+let badgeValue = 0;
+for(let i = 0; i<packList.length; i+=3) {
+    badgeValue += charToInt[
+        intersection(
+            Array.from(packList[i]),
+            Array.from(packList[i+1]),
+            Array.from(packList[i+2]))[0]
+        ]
 }
-const data: string = await readFile('12022022-input.txt');
-const moveList: string[] = data.split('\n');
-const resultsList: number[] = moveList.map(move => {return outcomeDict[move]});
-const finalResult: number = resultsList.reduce((a, b) => a + b);
-const trueResultsList: number[] = moveList.map(move => {return trueOutcomeDict[move]});
-const trueFinalResult: number = trueResultsList.reduce((a, b) => a + b);
+
 ---
-<Layout title="Day 2">
+<Layout title="Day 3">
     <main>
       <div class="fade-in-text ">
-        <h1>--- Day 2: Rock Paper Scissors ---</h1>
+        <h1>--- Day 3: Rucksack Reorganization ---</h1>
         <h2>Step 1: Parsing Input</h2>
-        <p>Reading the list of Moves, using '\n' as a seperator.</p>
-        <button type="button" class="collapsible">Here is the list of Moves</button>
+        <p>Reading the list of Packs, using '\n' as a seperator.</p>
+        <button type="button" class="collapsible">Here is the list of Rucksacks</button>
         <div class="content">
           <ul class="grid" >
-            {moveList.map(move => (
-              <li>{move}</li>
+            {packList.map(pack => (
+              <li>{pack}</li>
             ))}
           </ul>
         </div>
-        <h2>Step 2: Summing the Actions</h2>
-        <p>Reading the list of Moves, mapping is using the outcome dict, then summing</p>
+        <h2>Step 2: Finding the common item</h2>
+        <p>Map each Rucksack to a single letter doing a map -> split -> union</p>
         <button type="button" class="collapsible">Mapping the list of outcomes</button>
         <div class="content">
           <ul class="grid" >
-            {resultsList.map(outcome => (
-                <li>{outcome}</li>
+            {commonItems.map(common => (
+                <li>{common}</li>
             ))}
           </ul>
         </div>
-        <button type="button" class="collapsible">The Final Total</button>
+        <p>The Relative Lengths of things</p>
+        <h2>Step 3: Converting each value to a number and summing it up</h2>
+        <p>Using the char -> number dictionary we just map reduce</p>
+        <button type="button" class="collapsible">Final Value</button>
         <div class="content">
           <ul class="grid" >
-            {finalResult}
+            {totalCommonValue}
           </ul>
         </div>
-        <h2>Step 3: Recompiling the results</h2>
-        <p>Using a new dictionary we remap the same list of moves</p>
-        <button type="button" class="collapsible">Remapping the list of outcomes</button>
+        <h2>Step 4: finding the common in every 3 bags</h2>
+        <p>Using a simple for loop jumping index by 3</p>
+        <button type="button" class="collapsible">Badge Value</button>
         <div class="content">
           <ul class="grid" >
-            {trueResultsList.map(outcome => (
-                <li>{outcome}</li>
-            ))}
-          </ul>
-        </div>
-        <button type="button" class="collapsible">The True Final Total</button>
-        <div class="content">
-          <ul class="grid" >
-            {trueFinalResult}
+            {badgeValue}
           </ul>
         </div>
       </div>
